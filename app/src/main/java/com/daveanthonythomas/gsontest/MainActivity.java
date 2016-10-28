@@ -21,7 +21,7 @@ public class MainActivity extends AppCompatActivity {
         HashMap<KeyObject, ValueObject> map = new HashMap<>();
 
         KeyObject entry1Key = new KeyObject("stone", "bricks");
-        ValueObject entry1Value = new ValueObject1("guitar", "guitar");
+        ValueObject entry1Value = new ValueObject("guitar", "guitar");
 
         KeyObject entry2Key = new KeyObject("dirt", "dirt");
         ValueObject entry2Value = new ValueObject2("square", "note", 0.5f);
@@ -29,13 +29,7 @@ public class MainActivity extends AppCompatActivity {
         map.put(entry1Key, entry1Value);
         map.put(entry2Key, entry2Value);
 
-        // http://jansipke.nl/serialize-and-deserialize-a-list-of-polymorphic-objects-with-gson/
-        RuntimeTypeAdapterFactory<ValueObject> runtimeTypeAdapterFactory = RuntimeTypeAdapterFactory
-                .of(ValueObject.class)
-                .registerSubtype(ValueObject1.class)
-                .registerSubtype(ValueObject2.class);
-        Gson gson = new GsonBuilder().enableComplexMapKeySerialization()
-                .registerTypeAdapterFactory(runtimeTypeAdapterFactory).create();
+        Gson gson = new GsonBuilder().enableComplexMapKeySerialization().create();
 
         System.out.println(gson.toJson(map));
 
@@ -45,6 +39,9 @@ public class MainActivity extends AppCompatActivity {
 
         Type typeOfHashMap = new TypeToken<HashMap<KeyObject, ValueObject>>() { }.getType();
 
+        gson = new GsonBuilder().enableComplexMapKeySerialization()
+                .registerTypeAdapter(ValueObject.class, new ValueObjectDeserializer())
+                .create();
 
 
         HashMap<KeyObject, ValueObject> map2 = gson.fromJson(jsonInput, typeOfHashMap);

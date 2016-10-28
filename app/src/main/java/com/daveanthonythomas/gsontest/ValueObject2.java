@@ -4,7 +4,7 @@ package com.daveanthonythomas.gsontest;
  * Created by dave on 2016-10-28.
  */
 
-public class ValueObject2 extends ValueObject1 {
+public class ValueObject2 extends ValueObject {
 
     private float volume;
 
@@ -24,7 +24,9 @@ public class ValueObject2 extends ValueObject1 {
     @Override
     public String toString() {
         return "ValueObject2{" +
-                "volume=" + volume +
+                "sound='" + getSound() + '\'' +
+                ", particle='" + getParticle() + '\'' +
+                ", volume=" + volume +
                 '}';
     }
 
