@@ -26,16 +26,17 @@ public class MainActivity extends AppCompatActivity {
         KeyObject entry2Key = new KeyObject("dirt", "dirt");
         ValueObject entry2Value = new ValueObject2("square", "note", 0.5f);
 
-        map.put(entry1Key, entry1Value);
-        map.put(entry2Key, entry2Value);
+        Blocks blocks = new Blocks();
+        blocks.addBlock(entry1Key, entry1Value);
+        blocks.addBlock(entry2Key, entry2Value);
 
         Gson gson = new GsonBuilder().enableComplexMapKeySerialization().create();
 
-        System.out.println(gson.toJson(map));
+        System.out.println(gson.toJson(blocks));
 
-        String jsonInput = "[[{\"name\":\"dirt\",\"variant\":\"dirt\"},{\"volume\":0.5," +
+        String jsonInput = "{\"blocks\":[[{\"name\":\"dirt\",\"variant\":\"dirt\"},{\"volume\":0.5," +
                 "\"particle\":\"note\",\"sound\":\"square\"}],[{\"name\":\"stone\"," +
-                "\"variant\":\"bricks\"},{\"particle\":\"guitar\",\"sound\":\"guitar\"}]]";
+                "\"variant\":\"bricks\"},{\"particle\":\"guitar\",\"sound\":\"guitar\"}]]}";
 
         Type typeOfHashMap = new TypeToken<HashMap<KeyObject, ValueObject>>() { }.getType();
 
@@ -44,9 +45,9 @@ public class MainActivity extends AppCompatActivity {
                 .create();
 
 
-        HashMap<KeyObject, ValueObject> map2 = gson.fromJson(jsonInput, typeOfHashMap);
+        Blocks blocks2 = gson.fromJson(jsonInput, Blocks.class);
 
-        for (Map.Entry<KeyObject, ValueObject> entry : map2.entrySet()) {
+        for (Map.Entry<KeyObject, ValueObject> entry : blocks2.getBlocks().entrySet()) {
 
             System.out.println("Key: " + entry.getKey().toString());
             System.out.println("Value: " + entry.getValue().toString());
